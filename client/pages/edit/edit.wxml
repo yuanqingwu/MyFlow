@@ -1,0 +1,35 @@
+<view>
+  <view class="input_thing_view">
+    <textarea id="input_ting_box" auto-height bindinput="bindThingChange" placeholder="things to do" value="{{thing}}" />
+  </view>
+    <!-- <view class="input_thing_view">
+      <text class="edit_item_text">录音记录：</text>
+      <button></button>
+    </view> -->
+  <view>
+    <view class="input_thing_view">
+      <text class="edit_item_text">开始时间：</text>
+      <picker class="input_thing_date_picker" mode="date" value="{{date}}" bindchange="bindDateChange">{{date}}</picker>
+      <picker class="input_thing_time_picker" mode="time" value="{{time}}" bindchange="bindTimeChange">{{time}}</picker>
+    </view>
+     <!-- <view class="input_thing_view">
+      <text class="edit_item_text">提醒时间：</text>
+      <picker class="input_thing_date_picker" mode="date" value="{{date}}" bindchange="bindDateChange">{{date}}</picker>
+      <picker class="input_thing_time_picker" mode="time" value="{{time}}" bindchange="bindTimeChange">{{time}}</picker>
+       <switch class="switch_time_remind" checked type="switch" /> 
+      <contact-button></contact-button>
+    </view>  -->
+    <view class="input_thing_view">
+      <text class="edit_item_text">优先级：</text>
+      <radio-group class="priority-radio-group" bindchange="priorityChange">
+        <label class="priority-label" wx:for="{{prioritys}}" wx:key="*this">
+          <!-- style='background-color:{{prioritys[index].color}};' -->
+          <radio color="{{prioritys[index].color}}" value='{{prioritys[index].priority}}' checked='{{thing_priority == index}}'>
+
+          </radio>
+        </label>
+      </radio-group>
+    </view>
+    <button id="input_thing_confirm" bindtap="addThing">确定</button>
+  </view>
+</view>

@@ -1,0 +1,25 @@
+<!--index.wxml-->
+<view class="container">
+  <view class='title'>
+    <view bindtap="bindViewTap" class="userinfo">
+      <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </view>
+    <view class='sort-by'>
+    <button class='sort-by-bt' bindtap='onShow'>时间</button>
+    <button class='sort-by-bt' bindtap='sortByPriority'>优先级</button>
+    </view>
+  </view>
+  <view class="todolist">
+    <view wx:for="{{things}}" wx:for-item="thing" wx:key="*this">
+      <view class="thing_list" data-index="{{index}}" bindtap="thing_click_show_dialog">
+        <text class="thing_item">{{index}}:{{things[index].todo_thing}}
+        </text>
+        <text class="thing_time" style="background-color:{{prioritys[things[index].todo_thing_priority].color}};">{{things[index].todo_date}} {{things[index].todo_time}}</text>
+      </view>
+    </view>
+  </view>
+  <view class="add-view">
+    <button id="addBt" bindtap="bindAddTap">添加事项</button>
+  </view>
+</view>
