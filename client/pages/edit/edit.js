@@ -11,13 +11,13 @@ Page({
       //   todo_time: '12:01',
       //   todo_date: '2017-11-07',
       //   todo_thing_priority: 1,
-      //   todo_thing: 'thing'
+      //   todo_thing: ''
       // }
     ],
     prioritys: [
       { priority: 0, color: 'grey', checked: 'true' },
       { priority: 1, color: 'green' },
-      { priority: 2, color: 'yellow' },
+      { priority: 2, color: 'gold' },
       { priority: 3, color: 'crimson' },
     ]
   },
@@ -75,10 +75,10 @@ Page({
       thing: e.detail.value
     })
   },
-  priorityChange:function(e){
+  priorityChange: function (e) {
     console.log(e.detail.value)
     this.setData({
-      thing_priority:e.detail.value
+      thing_priority: e.detail.value
     })
   },
   onLoad: function (options) {
@@ -86,27 +86,29 @@ Page({
     console.log(options.tapindex)
 
     let that = this
+    if (options.tapindex != undefined) {
+      console.log(res.data[options.tapindex].todo_thing)
+      that.setData({
+        time: res.data[options.tapindex].todo_time,
+        date: res.data[options.tapindex].todo_date,
+        thing_priority: res.data[options.tapindex].todo_thing_priority,
+        thing: res.data[options.tapindex].todo_thing,
+      })
+    } else {
+      that.setData({
+        time: util.formatTime(new Date()).substring(11, 16),
+        date: util.formatTime(new Date()).substring(0, 10),
+        thing: '',
+      })
+    }
+
     wx.getStorage({
       key: 'save_things',
       success: function (res) {
         that.setData({
           things: res.data
         })
-        if (options.tapindex != undefined) {
-          console.log(res.data[options.tapindex].todo_thing)
-          that.setData({
-            time: res.data[options.tapindex].todo_time,
-            date: res.data[options.tapindex].todo_date,
-            thing_priority: res.data[options.tapindex].todo_thing_priority,
-            thing: res.data[options.tapindex].todo_thing,
-          })
-        } else {
-          that.setData({
-            time: util.formatTime(new Date()).substring(11, 16),
-            date: util.formatTime(new Date()).substring(0, 10),
-            thing: '',
-          })
-        }
+
       },
       fail: function () {
         // fail
@@ -115,24 +117,6 @@ Page({
         // complete
       }
     })
-  },
-  onReady: function () {
-    // 生命周期函数--监听页面初次渲染完成
-  },
-  onShow: function () {
-    // 生命周期函数--监听页面显示
-  },
-  onHide: function () {
-    // 生命周期函数--监听页面隐藏
-  },
-  onUnload: function () {
-    // 生命周期函数--监听页面卸载
-  },
-  onPullDownRefresh: function () {
-    // 页面相关事件处理函数--监听用户下拉动作
-  },
-  onReachBottom: function () {
-    // 页面上拉触底事件的处理函数
   },
   onShareAppMessage: function () {
     // 用户点击右上角分享

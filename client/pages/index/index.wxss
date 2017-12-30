@@ -17,6 +17,7 @@
 .sort-by {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   width: 50%;
   margin-left: 1rpx;
   background-color: gainsboro;
@@ -25,9 +26,10 @@
 .sort-by-bt {
   /* width: 120rpx; */
   height: 58rpx;
-  margin: 10rpx;
+  line-height: 58rpx;
   font-size: 28rpx;
   text-align: center;
+  margin-top: 10rpx;
   background-color: lightgrey;
 }
 
