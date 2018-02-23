@@ -1,4 +1,18 @@
 var util = require('../../utils/util.js')
+//********************************** */
+const recorder = wx.getRecorderManager()
+const options = {
+  duration: 10000,
+  sampleRate: 44100,
+  numberOfChannels: 1,
+  encodeBitRate: 192000,
+  format: 'aac',
+  frameSize: 50
+}
+recorder.onStop((res) => {
+  console.log("recorder stop:", res)
+})
+//********************************** */
 Page({
   data: {
     time: '12:01',
@@ -19,6 +33,14 @@ Page({
       { priority: 1, color: 'green' },
       { priority: 2, color: 'yellow' },
       { priority: 3, color: 'crimson' },
+    ],
+    recorder_progress: 0,
+    //0:未开始录音 1：录音中 2：录音结束
+    isRecording: 0,
+    recorderInfo: [
+      { isRecording: 0, audioImage: '../../image/audio_play_grey.png', btText: '开始录音' },
+      { isRecording: 1, audioImage: '../../image/audio_play_grey.png', btText: '停止录音' },
+      { isRecording: 2, audioImage: '../../image/audio_play_green.png', btText: '重新录音' }
     ]
   },
   addThing: function () {
@@ -75,11 +97,58 @@ Page({
       thing: e.detail.value
     })
   },
-  priorityChange:function(e){
+  priorityChange: function (e) {
     console.log(e.detail.value)
     this.setData({
-      thing_priority:e.detail.value
+      thing_priority: e.detail.value
     })
+  },
+  recorder_bt: function () {
+    let _isRecording = this.data.isRecording
+    let _recorder_progress = this.data.recorder_progress
+    let that = this
+    var interval
+    /**
+     * 开始录音函数
+     */
+    var _startRecord = function(){
+      recorder.start(options)
+      that.setData({
+        isRecording: 1
+      })
+
+      interval = setInterval(function () {
+        //console.log('recorder_progress:' + _recorder_progress)
+        if (that.data.isRecording === 1 && _recorder_progress <= 100) {
+          that.setData({
+            recorder_progress: _recorder_progress++
+          })
+        } else {
+          clearInterval(interval)
+          that.setData({
+            isRecording: 2
+          })
+        }
+      }, 100)
+    }
+    if (_isRecording === 0) {
+      _startRecord()
+    } else if (_isRecording === 1) {
+      recorder.stop()
+      clearInterval(interval)
+      that.setData({
+        isRecording: 2
+      })
+    } else if (_isRecording === 2) {
+      //录音结束,重新录音
+      _recorder_progress = 0
+      that.setData({
+        recorder_progress: 0
+      })
+      _startRecord()
+    }
+
+
   },
   onLoad: function (options) {
     // 生命周期函数--监听页面加载
