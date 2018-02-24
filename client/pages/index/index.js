@@ -25,7 +25,7 @@ Page({
       { priority: 3, color: 'crimson' },
     ],
     //sortBy:1:时间 2：优先级
-    sortBy: 1
+    sortBy: 1,
     tempRecorderFile: '',
   },
 
