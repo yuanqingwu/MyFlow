@@ -6,8 +6,12 @@
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
     </view>
     <view class='sort-by'>
-    <button class='sort-by-bt' bindtap='onShow'>时间</button>
-    <button class='sort-by-bt' bindtap='sortByPriority'>优先级</button>
+      <button class='sort-by-bt' style="{{sortBy===1?'background-color:green;':'background-color:lightgrey;'}}" bindtap='onShow'>时间</button>
+      <button class='sort-by-bt' style="{{sortBy===2?'background-color:green;':'background-color:lightgrey;'}}" bindtap='sortByPriority'>优先级</button>
+      <!-- <radio-group>
+    <radio class='sort-by-bt' checked='true'>时间</radio>
+    <radio class='sort-by-bt' style='null'>优先级</radio>
+    </radio-group> -->
     </view>
   </view>
   <view class="todolist">
