@@ -1,6 +1,7 @@
 var util = require('../../utils/util.js')
-//********************************** */
+//********************************** 录音 */
 const recorder = wx.getRecorderManager()
+// var tempRecorderFile
 const options = {
   duration: 10000,
   sampleRate: 44100,
@@ -9,10 +10,18 @@ const options = {
   format: 'aac',
   frameSize: 50
 }
-recorder.onStop((res) => {
-  console.log("recorder stop:", res)
-})
-//********************************** */
+
+// recorder.onStop((res) => {
+//   const { tempFilePath } = res
+//   tempRecorderFile = tempFilePath
+//   console.log("recorder stop:", tempFilePath)
+// })
+//********************************** 录音 */
+
+//**********************************音频播放 */
+const innerAudioContext = wx.createInnerAudioContext()
+
+//**********************************音频播放 */
 Page({
   data: {
     time: '12:01',
@@ -25,7 +34,9 @@ Page({
       //   todo_time: '12:01',
       //   todo_date: '2017-11-07',
       //   todo_thing_priority: 1,
-      //   todo_thing: 'thing'
+      //   todo_thing: 'thing',
+      //   todo_audio_path: '',
+      //   todo_recorder_progress: 0
       // }
     ],
     prioritys: [
@@ -35,6 +46,7 @@ Page({
       { priority: 3, color: 'crimson' },
     ],
     recorder_progress: 0,
+    tempRecorderFile: '',
     //0:未开始录音 1：录音中 2：录音结束
     isRecording: 0,
     recorderInfo: [
@@ -48,7 +60,9 @@ Page({
       todo_time: this.data.time,
       todo_date: this.data.date,
       todo_thing: this.data.thing,
-      todo_thing_priority: this.data.thing_priority
+      todo_thing_priority: this.data.thing_priority,
+      todo_audio_path: this.data.tempRecorderFile,
+      todo_recorder_progress: this.data.recorder_progress
     }
     this.data.things.push(_thing)
 
@@ -111,8 +125,18 @@ Page({
     /**
      * 开始录音函数
      */
-    var _startRecord = function(){
+    var _startRecord = function () {
+      //开始录音
       recorder.start(options)
+      //录音结束回调
+      recorder.onStop((res) => {
+        const { tempFilePath } = res
+        that.setData({
+          tempRecorderFile: tempFilePath
+        })
+        console.log("recorder stop:", that.data.tempRecorderFile)
+      })
+
       that.setData({
         isRecording: 1
       })
@@ -147,8 +171,26 @@ Page({
       })
       _startRecord()
     }
-
-
+  },
+  audioPlay: function () {
+    let _tempRecorderFile = this.data.tempRecorderFile
+    if (this.data.isRecording === 2 && _tempRecorderFile !== '') {
+      innerAudioContext.src = _tempRecorderFile
+      innerAudioContext.play()
+      innerAudioContext.onPlay(() => {
+        console.log('开始播放')
+      })
+      innerAudioContext.onError((res) => {
+        console.log(res.errMsg)
+        wx.showToast({
+          title: '出现内部错误，请重新录制！',
+        })
+      })
+    } else {
+      wx.showToast({
+        title: '出现内部错误，请重新录制！',
+      })
+    }
   },
   onLoad: function (options) {
     // 生命周期函数--监听页面加载
@@ -168,7 +210,14 @@ Page({
             date: res.data[options.tapindex].todo_date,
             thing_priority: res.data[options.tapindex].todo_thing_priority,
             thing: res.data[options.tapindex].todo_thing,
+            tempRecorderFile: res.data[options.tapindex].todo_audio_path,
+            recorder_progress: res.data[options.tapindex].todo_recorder_progress,
           })
+          if (res.data[options.tapindex].todo_recorder_progress > 0) {
+            that.setData({
+              isRecording: 2
+            })
+          }
         } else {
           that.setData({
             time: util.formatTime(new Date()).substring(11, 16),

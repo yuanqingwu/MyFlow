@@ -42,7 +42,7 @@
     <swiper>
       <swiper-item>
         <view class='edit-media-record-view'>
-          <image class='audio-image' src='{{recorderInfo[isRecording].audioImage}}'></image>
+          <image class='audio-image' src='{{recorderInfo[isRecording].audioImage}}' bindtap='audioPlay'></image>
           <progress class='recorder-progress' percent='{{recorder_progress}}'></progress>
           <button class='recorder-start-bt' bindtap='recorder_bt'>{{recorderInfo[isRecording].btText}}</button>
         </view>

@@ -46,26 +46,40 @@
   width: 100%;
   /* margin-top: 70rpx; */
   margin-bottom: 150rpx;
+  background-color: white;
 }
 
 .thing_list {
   width: 100%;
   display: inline-flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
   padding-top: 2px;
+  background-color: whitesmoke;
 }
 
 .thing_item {
-  width: 75%;
-  height: 40px;
+  /* width: 60%; */
+  flex: auto;
+  height: 100%;
   line-height: 40px;
   overflow: hidden;
   font-size: 14pt;
   padding-left: 10rpx;
-  background-color: whitesmoke;
+   background-color: lightgray;
+}
+
+.thing_contain_audio_image{
+  width: 25px;
+  height: 25px;
+  margin-top: 7px;
+  margin-right: 2px;
 }
 
 .thing_time {
-  width: 25%;
+   width: 100px; 
+  /* flex: 1; */
   height: 40px;
   line-height: 20px;
   font-size: 11pt;
@@ -89,3 +103,4 @@
   color: white;
   font-size: 14pt;
 }
+

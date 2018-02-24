@@ -12,7 +12,9 @@ Page({
       //   todo_time: '12:01',
       //   todo_date: '2017-11-07',
       //   todo_thing_priority: 1,
-      //   todo_thing: 'thing'
+      //   todo_thing: 'thing',
+      //   todo_audio_path: '',
+      //   todo_recorder_progress: 0
       // }
     ],
     prioritys: [
@@ -20,7 +22,8 @@ Page({
       { priority: 1, color: 'green' },
       { priority: 2, color: 'yellow' },
       { priority: 3, color: 'crimson' },
-    ]
+    ],
+    tempRecorderFile: '',
   },
 
   //事件处理函数
