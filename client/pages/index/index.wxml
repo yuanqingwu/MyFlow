@@ -19,6 +19,11 @@
       <view class="thing_list" data-index="{{index}}" bindtap="thing_click_show_dialog">
         <text class="thing_item">{{index}}:{{things[index].todo_thing}}
         </text>
+        <view class='thing_time'>
+        <image class='thing_contain_audio_image' src='../../image/audio.png' wx:if="{{things[index].todo_recorder_progress > 0}}"></image>
+        <image class='thing_contain_audio_image' src='../../image/photo.png' wx:if="{{false}}"></image>
+        <image class='thing_contain_audio_image' src='../../image/location.png' wx:if="{{false}}"></image>
+        </view>
         <text class="thing_time" style="background-color:{{prioritys[things[index].todo_thing_priority].color}};">{{things[index].todo_date}} {{things[index].todo_time}}</text>
       </view>
     </view>

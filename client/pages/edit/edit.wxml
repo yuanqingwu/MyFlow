@@ -2,7 +2,7 @@
   <view class="input_thing_view">
     <textarea id="input_ting_box" auto-height bindinput="bindThingChange" placeholder="things to do" value="{{thing}}" />
   </view>
-    <!-- <view class="input_thing_view">
+  <!-- <view class="input_thing_view">
       <text class="edit_item_text">录音记录：</text>
       <button></button>
     </view> -->
@@ -12,7 +12,7 @@
       <picker class="input_thing_date_picker" mode="date" value="{{date}}" bindchange="bindDateChange">{{date}}</picker>
       <picker class="input_thing_time_picker" mode="time" value="{{time}}" bindchange="bindTimeChange">{{time}}</picker>
     </view>
-     <!-- <view class="input_thing_view">
+    <!-- <view class="input_thing_view">
       <text class="edit_item_text">提醒时间：</text>
       <picker class="input_thing_date_picker" mode="date" value="{{date}}" bindchange="bindDateChange">{{date}}</picker>
       <picker class="input_thing_time_picker" mode="time" value="{{time}}" bindchange="bindTimeChange">{{time}}</picker>
@@ -30,6 +30,32 @@
         </label>
       </radio-group>
     </view>
-    <button id="input_thing_confirm" bindtap="addThing">确定</button>
   </view>
+
+  <!-- media view -->
+  <view class='input_thing_view'>
+    <view class='edit-media-view'>
+      <label class='edit_media_label'>录音</label>
+      <label calss='edit_media_label'>照片</label>
+      <label calss='edit_media_label'>位置</label>
+    </view>
+    <swiper>
+      <swiper-item>
+        <view class='edit-media-record-view'>
+          <image class='audio-image' src='{{recorderInfo[isRecording].audioImage}}' bindtap='audioPlay'></image>
+          <progress class='recorder-progress' percent='{{recorder_progress}}'></progress>
+          <button class='recorder-start-bt' bindtap='recorder_bt'>{{recorderInfo[isRecording].btText}}</button>
+        </view>
+      </swiper-item>
+      <swiper-item>
+        <view>照片</view>
+      </swiper-item>
+      <swiper-item>
+        <view>
+          <!-- <map></map> -->
+        </view>
+      </swiper-item>
+    </swiper>
+  </view>
+  <button id="input_thing_confirm" bindtap="addThing">确定</button>
 </view>

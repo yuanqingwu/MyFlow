@@ -13,6 +13,9 @@ Page({
       //   todo_date: '2017-11-07',
       //   todo_thing_priority: 1,
       //   todo_thing: ''
+      //   todo_thing: 'thing',
+      //   todo_audio_path: '',
+      //   todo_recorder_progress: 0
       // }
     ],
     prioritys: [
@@ -23,6 +26,7 @@ Page({
     ],
     //sortBy:1:时间 2：优先级
     sortBy: 1
+    tempRecorderFile: '',
   },
 
   //事件处理函数

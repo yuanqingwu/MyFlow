@@ -44,8 +44,7 @@
   display: inline-block;
   /* margin-left: 10px; */
   text-align: center;
-  /* background-color: powderblue; */
-  /* border: 1px solid gray; */
+  /* background-color: powderblue; *//* border: 1px solid gray; */
 }
 
 .switch_time_remind {
@@ -53,7 +52,7 @@
   height: 60%;
   display: inline-block;
   text-align: center;
-   margin-left: 10px; 
+  margin-left: 10px;
 }
 
 .priority-radio-group {
@@ -69,4 +68,43 @@
 
 .priority-label {
   text-align: center;
+}
+
+.edit-media-view {
+  height: 50px;
+  margin-top: 20px;
+  margin-left: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.edit_media_label {
+  text-align: center;
+}
+
+.edit-media-record-view{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.recorder-progress {
+  width: 80%;
+  margin: 10px;
+}
+
+.audio-image {
+  width: 30px;
+  height: 30px;
+  margin: 10px;
+}
+
+.recorder-start-bt{
+  width: 80%;
+  margin-top: 20px;
+  display: block;
 }
