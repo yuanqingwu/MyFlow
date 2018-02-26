@@ -57,5 +57,5 @@
       </swiper-item>
     </swiper>
   </view>
-  <button id="input_thing_confirm" bindtap="addThing">确定</button>
+  <button id="input_thing_confirm" bindtap="addThing">{{operationInfo[operation].btText}}</button>
 </view>

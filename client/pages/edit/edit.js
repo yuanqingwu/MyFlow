@@ -24,11 +24,11 @@ const options = {
 //**********************************音频播放 */
 Page({
   data: {
-    time: '12:01',
-    date: '2017-11-07',
+    time: util.formatTime(new Date()).substring(11, 16),
+    date: util.formatTime(new Date()).substring(0, 10),
+    thing: '',
     //数值越大，优先级越高
     thing_priority: 0,
-    thing: 'thing',
     things: [
       // {
       //   todo_time: '12:01',
@@ -54,12 +54,20 @@ Page({
       { isRecording: 0, audioImage: '../../image/audio_play_grey.png', btText: '开始录音' },
       { isRecording: 1, audioImage: '../../image/audio_play_grey.png', btText: '停止录音' },
       { isRecording: 2, audioImage: '../../image/audio_play_green.png', btText: '重新录音' }
-    ]
+    ],
+    //operation :0:添加事项； 1：查看事项； 2：编辑事项
+    operation: 0,
+    operationInfo: [
+      { operation: 0, btText: '确认添加', dataEditable: true },
+      { operation: 1, btText: '返回首页', dataEditable: false },
+      { operation: 2, btText: '确认修改', dataEditable: true },
+    ],
+    tapindex:0,
   },
   addThing: function () {
-    //封装保存此条信息函数
+    //封装保存此条信息函数,（index=-1则添加一条；index!=-1则修改index条）
     let that = this
-    let saveThing = function () {
+    let saveThing = function (index, recorderFilePath) {
       let _thing = {
         todo_time: that.data.time,
         todo_date: that.data.date,
@@ -68,23 +76,18 @@ Page({
         todo_audio_path: recorderFilePath,
         todo_recorder_progress: that.data.recorder_progress
       }
-      that.data.things.push(_thing)
+      if(index === -1){
+        that.data.things.push(_thing)
+      }else{
+        that.data.things.splice(index, 1, _thing)
+      }
       console.log('things.length:' + that.data.things.length)
       wx.setStorage({
         key: 'save_things',
         data: that.data.things,
         success: function (res) {
           wx.navigateBack({
-            url: '../index/index',
-            success: function (res) {
-              // success
-            },
-            fail: function () {
-              // fail
-            },
-            complete: function () {
-              // complete
-            }
+            delta: 1
           })
         },
         fail: function () {
@@ -96,26 +99,42 @@ Page({
       })
     }
 
-  //将临时文件保存本地
-    let recorderFilePath = this.data.tempRecorderFile
-    if (recorderFilePath !== ''){
-    wx.saveFile({
-      tempFilePath: recorderFilePath,
-      success:function(res){
-        recorderFilePath = res.savedFilePath
-        console.log('save success recorderFilePath:', recorderFilePath)
-        //保存此事
-        saveThing()
-      },
-      fail:function(){
-        recorderFilePath = ''
-        wx.showToast({
-          title: '保存录音文件失败！',
-          icon:'none'
+    let _operation = this.data.operation
+    if (_operation === 0) {
+      //添加事项
+      //将临时文件保存本地
+      let recorderFilePath = that.data.tempRecorderFile
+      if (recorderFilePath !== '') {
+        wx.saveFile({
+          tempFilePath: recorderFilePath,
+          success: function (res) {
+            recorderFilePath = res.savedFilePath
+            console.log('save success recorderFilePath:', recorderFilePath)
+            //保存此事
+            saveThing(-1, recorderFilePath)
+          },
+          fail: function () {
+            recorderFilePath = ''
+            wx.showToast({
+              title: '保存录音文件失败！',
+              icon: 'none'
+            })
+          }
         })
+      }else{
+        saveThing(-1,'')
       }
-    })
-  }
+    } else if (_operation === 1) {
+      //查看事项
+      wx.navigateBack({
+        delta: 1
+      })
+    } else if (_operation === 2) {
+      //编辑事项
+      saveThing(that.data.tapindex, that.data.tempRecorderFile)
+    }
+
+
   },
   bindTimeChange: function (e) {
     this.setData({
@@ -196,19 +215,19 @@ Page({
   audioPlay: function () {
     let innerAudioContext = wx.createInnerAudioContext()
     let _tempRecorderFile = this.data.tempRecorderFile
-    console.log('音频地址：',_tempRecorderFile)
+    console.log('音频地址：', _tempRecorderFile)
     if (this.data.isRecording === 2 && _tempRecorderFile !== '') {
       innerAudioContext.autoplay = false
       innerAudioContext.loop = false
       innerAudioContext.src = _tempRecorderFile
-      innerAudioContext.onCanplay(()=>{
+      innerAudioContext.onCanplay(() => {
         innerAudioContext.play()
       })
       innerAudioContext.onPlay(() => {
-        console.log('开始播放：',_tempRecorderFile)
+        console.log('开始播放：', _tempRecorderFile)
       })
       innerAudioContext.onError((res) => {
-        console.log(res.errMsg,' errCode:'+res.errCode)
+        console.log(res.errMsg, ' errCode:' + res.errCode)
         wx.showToast({
           title: '出现内部错误，请重新录制！',
           icon: 'none',
@@ -223,15 +242,20 @@ Page({
   },
   onLoad: function (options) {
     // 生命周期函数--监听页面加载
-    console.log(options.tapindex)
+    console.log('tapindex:' + options.tapindex, 'operation:' + options.operation)
     let that = this
+    that.setData({
+      tapindex: options.tapindex,
+      operation: parseInt(options.operation)
+    })
     wx.getStorage({
       key: 'save_things',
       success: function (res) {
         that.setData({
-          things: res.data
+          things: res.data,
+          
         })
-        if (options.tapindex != undefined) {
+        if (options.tapindex != -1) {
           console.log(res.data[options.tapindex].todo_thing)
           that.setData({
             time: res.data[options.tapindex].todo_time,

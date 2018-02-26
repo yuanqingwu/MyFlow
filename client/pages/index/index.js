@@ -1,4 +1,3 @@
-//index.js
 //获取应用实例
 var app = getApp()
 
@@ -27,6 +26,7 @@ Page({
     //sortBy:1:时间 2：优先级
     sortBy: 1,
     tempRecorderFile: '',
+    //operation :0:添加事项； 1：查看事项； 2：编辑事项
   },
 
   //事件处理函数
@@ -45,14 +45,14 @@ Page({
         console.log(res.tapIndex)
         if (res.tapIndex === 0) {
           wx.navigateTo({
-            url: '../edit/edit?tapindex=' + index,
+            url: '../edit/edit?tapindex=' + index + '&operation=2',
           })
         } else if (res.tapIndex === 1) {
           //删除条目
           //1.先删除本地保存的文件
           wx.removeSavedFile({
             filePath: that.data.things[index].todo_audio_path,
-            success:function(){
+            success: function () {
               console.log('录音文件删除成功')
             },
             fail: function () {
@@ -83,15 +83,15 @@ Page({
       }
     })
   },
-  thing_click_view_detals:function(event){
+  thing_click_view_detals: function (event) {
     let index = event.currentTarget.dataset.index
     wx.navigateTo({
-      url: '../edit/edit?tapindex=' + index,
+      url: '../edit/edit?tapindex=' + index + '&operation=1',
     })
   },
   bindAddTap: function () {
     wx.navigateTo({
-      url: '../edit/edit',
+      url: '../edit/edit?tapindex=-1&operation=0',
       success: function (res) {
         // success
       },
