@@ -16,7 +16,7 @@
   </view>
   <view class="todolist">
     <view wx:for="{{things}}" wx:for-item="thing" wx:key="*this">
-      <view class="thing_list" data-index="{{index}}" bindtap="thing_click_show_dialog">
+      <view class="thing_list" data-index="{{index}}" bindlongpress="thing_click_show_dialog" bindtap='thing_click_view_detals'>
         <text class="thing_item">{{index}}:{{things[index].todo_thing}}
         </text>
         <view class='thing_time'>

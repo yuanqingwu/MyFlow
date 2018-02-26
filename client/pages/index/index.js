@@ -48,6 +48,18 @@ Page({
             url: '../edit/edit?tapindex=' + index,
           })
         } else if (res.tapIndex === 1) {
+          //删除条目
+          //1.先删除本地保存的文件
+          wx.removeSavedFile({
+            filePath: that.data.things[index].todo_audio_path,
+            success:function(){
+              console.log('录音文件删除成功')
+            },
+            fail: function () {
+              console.log('录音文件删除失败')
+            }
+          })
+
           that.data.things.splice(index, 1)
           wx.setStorage({
             key: 'save_things',
@@ -69,6 +81,12 @@ Page({
       fail: function (res) {
         console.log(res.errMsg)
       }
+    })
+  },
+  thing_click_view_detals:function(event){
+    let index = event.currentTarget.dataset.index
+    wx.navigateTo({
+      url: '../edit/edit?tapindex=' + index,
     })
   },
   bindAddTap: function () {
