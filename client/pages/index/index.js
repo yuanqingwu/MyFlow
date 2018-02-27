@@ -20,10 +20,14 @@ Page({
       // }
     ],
     prioritys: [
+      // { priority: 0, color: 'grey', checked: 'true' },
+      // { priority: 1, color: '#009900' },
+      // { priority: 2, color: '#ffcc00' },
+      // { priority: 3, color: '#e64340' },
       { priority: 0, color: 'grey', checked: 'true' },
-      { priority: 1, color: 'green' },
-      { priority: 2, color: 'gold' },
-      { priority: 3, color: 'crimson' },
+      { priority: 1, color: '#09bb07' },
+      { priority: 2, color: '#E4E544' },
+      { priority: 3, color: '#e64340' },
     ],
     //sortBy:1:时间 2：优先级
     sortBy: 1,
@@ -150,8 +154,8 @@ Page({
   onShareAppMessage: function () {
     // 用户点击右上角分享
     return {
-      title: 'MyFlow', // 分享标题
-      desc: '每件事组成我们生活的Flow', // 分享描述
+      title: '记录的每件事组成了我们生活的Flow', // 分享标题
+      desc: '记录的所有事项', // 分享描述
       path: 'pages/index/index' // 分享路径
     }
   }

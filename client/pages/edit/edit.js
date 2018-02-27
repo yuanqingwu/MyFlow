@@ -42,10 +42,14 @@ Page({
       // }
     ],
     prioritys: [
+      // { priority: 0, color: 'grey', checked: 'true' },
+      // { priority: 1, color: 'green' },
+      // { priority: 2, color: 'gold' },
+      // { priority: 3, color: 'crimson' },
       { priority: 0, color: 'grey', checked: 'true' },
-      { priority: 1, color: 'green' },
-      { priority: 2, color: 'gold' },
-      { priority: 3, color: 'crimson' },
+      { priority: 1, color: '#09bb07' },
+      { priority: 2, color: '#E4E544' },
+      { priority: 3, color: '#e64340' },
     ],
     /***************************录音数据 */
     recorder_progress: 0,
@@ -358,9 +362,9 @@ Page({
   onShareAppMessage: function () {
     // 用户点击右上角分享
     return {
-      title: 'title', // 分享标题
-      desc: 'desc', // 分享描述
-      path: 'path' // 分享路径
+      title: '记录的每件事组成了我们生活的Flow', // 分享标题
+      desc: '事项详细信息', // 分享描述
+      path: 'pages/edit/edit' // 分享路径
     }
   }
 })
