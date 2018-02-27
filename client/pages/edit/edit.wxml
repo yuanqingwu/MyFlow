@@ -34,27 +34,31 @@
   <!-- media view -->
   <view class='input_thing_view'>
     <view class='edit-media-view'>
-      <label class='edit_media_label'>录音</label>
-      <label calss='edit_media_label'>照片</label>
-      <label calss='edit_media_label'>位置</label>
+      <label class='edit_media_label' id='edit_media_label_0' bindtap='swiperLabelClick' style="{{swiperIndex==0?'color:green;':'color:lightgrey;'}}">录音</label>
+      <label calss='edit_media_label' id='edit_media_label_1' bindtap='swiperLabelClick' style="{{swiperIndex==1?'color:green;':'color:lightgrey;'}}">照片</label>
+      <label calss='edit_media_label' id='edit_media_label_2' bindtap='swiperLabelClick' style="{{swiperIndex==2?'color:green;':'color:lightgrey;'}}">位置</label>
     </view>
-    <swiper>
+    <swiper class='edit-media-swiper' current='{{swiperIndex}}' bindchange='swperChange'>
       <swiper-item>
         <view class='edit-media-record-view'>
           <image class='audio-image' src='{{recorderInfo[isRecording].audioImage}}' bindtap='audioPlay'></image>
           <progress class='recorder-progress' percent='{{recorder_progress}}' show-info='true'></progress>
-          <button class='recorder-start-bt' bindtap='recorder_bt' disabled='{{operation===1?true:false}}'>{{recorderInfo[isRecording].btText}}</button>
+          <button class='edit_media_confirm_bt' bindtap='recorder_bt' disabled='{{operation===1?true:false}}'>{{recorderInfo[isRecording].btText}}</button>
         </view>
       </swiper-item>
       <swiper-item>
-        <view>照片</view>
+        <view class='edit-media-record-view'>
+          <image class='edit-media-photo' src='{{imagePath}}' mode='aspectFit'></image>
+          <button class='edit_media_confirm_bt' bindtap='chooseImage' disabled='{{operation===1?true:false}}'>选取图片</button>
+        </view>
       </swiper-item>
       <swiper-item>
-        <view>
-          <!-- <map></map> -->
+        <view class='edit-media-record-view'>
+          <text class='edit_media_location_text'>位置名称：{{locationName}}</text>
+          <button class='edit_media_confirm_bt' bindtap='chooseLocation' disabled='{{operation===1?true:false}}'>选取位置</button>
         </view>
       </swiper-item>
     </swiper>
   </view>
-  <button id="input_thing_confirm" bindtap="addThing">{{operationInfo[operation].btText}}</button>
+  <button id='input_thing_confirm' bindtap='addThing'>{{operationInfo[operation].btText}}</button>
 </view>

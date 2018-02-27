@@ -14,7 +14,9 @@ Page({
       //   todo_thing: ''
       //   todo_thing: 'thing',
       //   todo_audio_path: '',
-      //   todo_recorder_progress: 0
+      //   todo_recorder_progress: 0,
+      //   todo_photo_imagePath:'',
+      //   todo_location_locationName:''
       // }
     ],
     prioritys: [

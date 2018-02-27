@@ -10,20 +10,19 @@ const options = {
   format: 'aac',
   frameSize: 50
 }
-
-// recorder.onStop((res) => {
-//   const { tempFilePath } = res
-//   tempRecorderFile = tempFilePath
-//   console.log("recorder stop:", tempFilePath)
-// })
 //********************************** 录音 */
-
-//**********************************音频播放 */
-// const innerAudioContext = wx.createInnerAudioContext()
-
-//**********************************音频播放 */
 Page({
   data: {
+    //首页点击的是第几条事项
+    tapindex: 0,
+    //operation :0:添加事项； 1：查看事项； 2：编辑事项
+    operation: 0,
+    operationInfo: [
+      { operation: 0, btText: '确认添加', dataEditable: true },
+      { operation: 1, btText: '返回首页', dataEditable: false },
+      { operation: 2, btText: '确认修改', dataEditable: true },
+    ],
+    /*********************事项详细信息 */
     time: util.formatTime(new Date()).substring(11, 16),
     date: util.formatTime(new Date()).substring(0, 10),
     thing: '',
@@ -37,7 +36,9 @@ Page({
       //   todo_thing: ''
       //   todo_thing: 'thing',
       //   todo_audio_path: '',
-      //   todo_recorder_progress: 0
+      //   todo_recorder_progress: 0,
+      //   todo_photo_imagePath:'',
+      //   todo_location_locationName:''
       // }
     ],
     prioritys: [
@@ -46,6 +47,7 @@ Page({
       { priority: 2, color: 'gold' },
       { priority: 3, color: 'crimson' },
     ],
+    /***************************录音数据 */
     recorder_progress: 0,
     tempRecorderFile: '',
     //0:未开始录音 1：录音中 2：录音结束
@@ -55,14 +57,12 @@ Page({
       { isRecording: 1, audioImage: '../../image/audio_play_grey.png', btText: '停止录音' },
       { isRecording: 2, audioImage: '../../image/audio_play_green.png', btText: '重新录音' }
     ],
-    //operation :0:添加事项； 1：查看事项； 2：编辑事项
-    operation: 0,
-    operationInfo: [
-      { operation: 0, btText: '确认添加', dataEditable: true },
-      { operation: 1, btText: '返回首页', dataEditable: false },
-      { operation: 2, btText: '确认修改', dataEditable: true },
-    ],
-    tapindex:0,
+    //*****************************照片数据 */
+    imagePath: '',
+    //*****************************位置数据 */
+    locationName: '',
+    //media选择的tab
+    swiperIndex: 0
   },
   addThing: function () {
     //封装保存此条信息函数,（index=-1则添加一条；index!=-1则修改index条）
@@ -74,11 +74,13 @@ Page({
         todo_thing: that.data.thing,
         todo_thing_priority: that.data.thing_priority,
         todo_audio_path: recorderFilePath,
-        todo_recorder_progress: that.data.recorder_progress
+        todo_recorder_progress: that.data.recorder_progress,
+        todo_photo_imagePath: that.data.imagePath,
+        todo_location_locationName: that.data.locationName
       }
-      if(index === -1){
+      if (index === -1) {
         that.data.things.push(_thing)
-      }else{
+      } else {
         that.data.things.splice(index, 1, _thing)
       }
       console.log('things.length:' + that.data.things.length)
@@ -121,8 +123,8 @@ Page({
             })
           }
         })
-      }else{
-        saveThing(-1,'')
+      } else {
+        saveThing(-1, '')
       }
     } else if (_operation === 1) {
       //查看事项
@@ -133,8 +135,6 @@ Page({
       //编辑事项
       saveThing(that.data.tapindex, that.data.tempRecorderFile)
     }
-
-
   },
   bindTimeChange: function (e) {
     this.setData({
@@ -228,22 +228,22 @@ Page({
       innerAudioContext.onPlay(() => {
         console.log('开始播放：', _tempRecorderFile)
         that.setData({
-          recorder_progress:0
+          recorder_progress: 0
         })
         let recorderProgress = that.data.recorder_progress
-        let interval = setInterval(function(){
-          if (recorderProgress < recorder_progress_original){
-            console.log('原始进度：'+recorder_progress_original)
+        let interval = setInterval(function () {
+          if (recorderProgress < recorder_progress_original) {
+            console.log('原始进度：' + recorder_progress_original)
             that.setData({
               recorder_progress: ++recorderProgress
             })
-          }else{
+          } else {
             clearInterval(interval)
             // that.setData({
             //   recorder_progress: recorder_progress_original
             // })
           }
-        },100);
+        }, 100);
       })
       innerAudioContext.onError((res) => {
         console.log(res.errMsg, ' errCode:' + res.errCode)
@@ -256,6 +256,54 @@ Page({
       wx.showToast({
         title: '请重新录制！',
         icon: 'none',
+      })
+    }
+  },
+  chooseImage: function () {
+    let that = this
+    wx.chooseImage({
+      count: 1,
+      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+      sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+      success: function (res) {
+        console.log(res.tempFilePaths)
+        that.setData({
+          imagePath: res.tempFilePaths[0]
+        })
+      },
+    })
+  },
+  chooseLocation: function () {
+    let that = this
+    wx.chooseLocation({
+      success: function (res) {
+        console.log('name:' + res.name + 'adress:' + res.address)
+        that.setData({
+          locationName: res.name
+        })
+      },
+    })
+  },
+  swiperLabelClick: function (event) {
+    let clickId = event.currentTarget.id
+    let _swiperIndex = 0
+    if (clickId == 'edit_media_label_0') {
+      _swiperIndex = 0;
+    } else if (clickId == 'edit_media_label_1') {
+      _swiperIndex = 1
+    } else if (clickId == 'edit_media_label_2') {
+      _swiperIndex = 2
+    }
+    this.setData({
+      swiperIndex: _swiperIndex
+    })
+  },
+  swperChange: function (event) {
+    let that = this
+    if (event.detail.source == 'touch') {
+      //console.log(event.detail.current)
+      that.setData({
+        swiperIndex: event.detail.current
       })
     }
   },
@@ -272,7 +320,7 @@ Page({
       success: function (res) {
         that.setData({
           things: res.data,
-          
+
         })
         if (options.tapindex != -1) {
           console.log(res.data[options.tapindex].todo_thing)
@@ -283,6 +331,8 @@ Page({
             thing: res.data[options.tapindex].todo_thing,
             tempRecorderFile: res.data[options.tapindex].todo_audio_path,
             recorder_progress: res.data[options.tapindex].todo_recorder_progress,
+            imagePath: res.data[options.tapindex].todo_photo_imagePath,
+            locationName: res.data[options.tapindex].todo_location_locationName
           })
           if (res.data[options.tapindex].todo_recorder_progress > 0) {
             that.setData({
