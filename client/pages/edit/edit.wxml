@@ -1,6 +1,6 @@
 <view>
   <view class="input_thing_view">
-    <textarea id="input_ting_box" auto-height bindinput="bindThingChange" placeholder="things to do" value="{{thing}}" />
+    <textarea id="input_ting_box" auto-height="true" bindinput="bindThingChange" placeholder="描述事项" disabled='{{operation===1?true:false}}' value="{{thing}}" />
   </view>
   <!-- <view class="input_thing_view">
       <text class="edit_item_text">录音记录：</text>
@@ -9,8 +9,8 @@
   <view>
     <view class="input_thing_view">
       <text class="edit_item_text">开始时间：</text>
-      <picker class="input_thing_date_picker" mode="date" value="{{date}}" bindchange="bindDateChange">{{date}}</picker>
-      <picker class="input_thing_time_picker" mode="time" value="{{time}}" bindchange="bindTimeChange">{{time}}</picker>
+      <picker class="input_thing_date_picker" mode="date" disabled='{{operation===1?true:false}}' value="{{date}}" bindchange="bindDateChange">{{date}}</picker>
+      <picker class="input_thing_time_picker" mode="time" disabled='{{operation===1?true:false}}' value="{{time}}" bindchange="bindTimeChange">{{time}}</picker>
     </view>
     <!-- <view class="input_thing_view">
       <text class="edit_item_text">提醒时间：</text>
@@ -24,8 +24,7 @@
       <radio-group class="priority-radio-group" bindchange="priorityChange">
         <label class="priority-label" wx:for="{{prioritys}}" wx:key="*this">
           <!-- style='background-color:{{prioritys[index].color}};' -->
-          <radio color="{{prioritys[index].color}}" value='{{prioritys[index].priority}}' checked='{{thing_priority == index}}'>
-
+          <radio color="{{prioritys[index].color}}" value='{{prioritys[index].priority}}' checked='{{thing_priority == index}}' disabled='{{operation===1?true:false}}'>
           </radio>
         </label>
       </radio-group>
@@ -43,8 +42,8 @@
       <swiper-item>
         <view class='edit-media-record-view'>
           <image class='audio-image' src='{{recorderInfo[isRecording].audioImage}}' bindtap='audioPlay'></image>
-          <progress class='recorder-progress' percent='{{recorder_progress}}'></progress>
-          <button class='recorder-start-bt' bindtap='recorder_bt'>{{recorderInfo[isRecording].btText}}</button>
+          <progress class='recorder-progress' percent='{{recorder_progress}}' show-info='true'></progress>
+          <button class='recorder-start-bt' bindtap='recorder_bt' disabled='{{operation===1?true:false}}'>{{recorderInfo[isRecording].btText}}</button>
         </view>
       </swiper-item>
       <swiper-item>

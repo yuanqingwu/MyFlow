@@ -161,7 +161,7 @@ Page({
     let _isRecording = this.data.isRecording
     let _recorder_progress = this.data.recorder_progress
     let that = this
-    var interval
+    let interval
     /**
      * 开始录音函数
      */
@@ -215,6 +215,8 @@ Page({
   audioPlay: function () {
     let innerAudioContext = wx.createInnerAudioContext()
     let _tempRecorderFile = this.data.tempRecorderFile
+    let that = this
+    let recorder_progress_original = that.data.recorder_progress
     console.log('音频地址：', _tempRecorderFile)
     if (this.data.isRecording === 2 && _tempRecorderFile !== '') {
       innerAudioContext.autoplay = false
@@ -225,6 +227,23 @@ Page({
       })
       innerAudioContext.onPlay(() => {
         console.log('开始播放：', _tempRecorderFile)
+        that.setData({
+          recorder_progress:0
+        })
+        let recorderProgress = that.data.recorder_progress
+        let interval = setInterval(function(){
+          if (recorderProgress < recorder_progress_original){
+            console.log('原始进度：'+recorder_progress_original)
+            that.setData({
+              recorder_progress: ++recorderProgress
+            })
+          }else{
+            clearInterval(interval)
+            // that.setData({
+            //   recorder_progress: recorder_progress_original
+            // })
+          }
+        },100);
       })
       innerAudioContext.onError((res) => {
         console.log(res.errMsg, ' errCode:' + res.errCode)
