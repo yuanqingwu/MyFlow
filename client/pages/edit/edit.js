@@ -302,7 +302,7 @@ Page({
       swiperIndex: _swiperIndex
     })
   },
-  swperChange: function (event) {
+  swiperChange: function (event) {
     let that = this
     if (event.detail.source == 'touch') {
       //console.log(event.detail.current)
@@ -324,7 +324,6 @@ Page({
       success: function (res) {
         that.setData({
           things: res.data,
-
         })
         if (options.tapindex != -1) {
           console.log(res.data[options.tapindex].todo_thing)

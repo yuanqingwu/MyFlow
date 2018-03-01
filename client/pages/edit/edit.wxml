@@ -22,7 +22,7 @@
     <view class="input_thing_view">
       <text class="edit_item_text">优先级：</text>
       <radio-group class="priority-radio-group" bindchange="priorityChange">
-        <label class="priority-label" wx:for="{{prioritys}}" wx:key="*this">
+        <label class="priority-label" wx:for="{{prioritys}}" wx:key="priority">
           <!-- style='background-color:{{prioritys[index].color}};' -->
           <radio color="{{prioritys[index].color}}" value='{{prioritys[index].priority}}' checked='{{thing_priority == index}}' disabled='{{operation===1?true:false}}'>
           </radio>
@@ -34,28 +34,29 @@
   <!-- media view -->
   <view class='input_thing_view'>
     <view class='edit-media-view'>
-      <label class='edit_media_label' id='edit_media_label_0' bindtap='swiperLabelClick' style="{{swiperIndex==0?'color:green;':'color:lightgrey;'}}">录音</label>
-      <label calss='edit_media_label' id='edit_media_label_1' bindtap='swiperLabelClick' style="{{swiperIndex==1?'color:green;':'color:lightgrey;'}}">照片</label>
-      <label calss='edit_media_label' id='edit_media_label_2' bindtap='swiperLabelClick' style="{{swiperIndex==2?'color:green;':'color:lightgrey;'}}">位置</label>
+      <label class='edit_media_label' id='edit_media_label_0' bindtap='swiperLabelClick' style="{{swiperIndex==0?'color:green;':'color:black;'}}">录音</label>
+      <label calss='edit_media_label' id='edit_media_label_1' bindtap='swiperLabelClick' style="{{swiperIndex==1?'color:green;':'color:black;'}}">照片</label>
+      <label calss='edit_media_label' id='edit_media_label_2' bindtap='swiperLabelClick' style="{{swiperIndex==2?'color:green;':'color:black;'}}">位置</label>
     </view>
-    <swiper class='edit-media-swiper' current='{{swiperIndex}}' bindchange='swperChange'>
+    <swiper class='edit-media-swiper' current='{{swiperIndex}}' bindchange='swiperChange'>
       <swiper-item>
-        <view class='edit-media-record-view'>
+        <view class='edit-media-swiper-item-view'>
           <image class='audio-image' src='{{recorderInfo[isRecording].audioImage}}' bindtap='audioPlay'></image>
           <progress class='recorder-progress' percent='{{recorder_progress}}' show-info='true'></progress>
-          <button class='edit_media_confirm_bt' bindtap='recorder_bt' disabled='{{operation===1?true:false}}'>{{recorderInfo[isRecording].btText}}</button>
+          <button class='edit_media_confirm_bt' bindtap='recorder_bt' wx:if='{{operation===1?false:true}}'>{{recorderInfo[isRecording].btText}}</button>
         </view>
       </swiper-item>
       <swiper-item>
-        <view class='edit-media-record-view'>
-          <image class='edit-media-photo' src='{{imagePath}}' mode='aspectFit'></image>
-          <button class='edit_media_confirm_bt' bindtap='chooseImage' disabled='{{operation===1?true:false}}'>选取图片</button>
+        <view class='edit-media-swiper-item-view'>
+          <image class='edit-media-photo' src='{{imagePath}}' mode='aspectFit' wx:if='{{imagePath.length>0?true:false}}'></image>
+          <text class='edit_media_location_text' wx:if='{{imagePath.length>0?false:true}}'>没有图片信息!</text>
+          <button class='edit_media_confirm_bt' bindtap='chooseImage' wx:if='{{operation===1?false:true}}'>选取图片</button>
         </view>
       </swiper-item>
       <swiper-item>
-        <view class='edit-media-record-view'>
-          <text class='edit_media_location_text'>位置名称：{{locationName}}</text>
-          <button class='edit_media_confirm_bt' bindtap='chooseLocation' disabled='{{operation===1?true:false}}'>选取位置</button>
+        <view class='edit-media-swiper-item-view'>
+          <text class='edit_media_location_text'>{{locationName.length>0?'位置名称：':'没有位置信息！'}}{{locationName}}</text>
+          <button class='edit_media_confirm_bt' bindtap='chooseLocation' wx:if="{{operation===1?false:true}}">选取位置</button>
         </view>
       </swiper-item>
     </swiper>

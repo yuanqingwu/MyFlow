@@ -6,8 +6,8 @@
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
     </view>
     <view class='sort-by'>
-      <button class='sort-by-bt' style="{{sortBy===1?'background-color:green;':'background-color:lightgrey;'}}" bindtap='onShow'>时间</button>
-      <button class='sort-by-bt' style="{{sortBy===2?'background-color:green;':'background-color:lightgrey;'}}" bindtap='sortByPriority'>优先级</button>
+      <button class='sort-by-bt' style="{{sortBy===1?'background-color:grey;':'background-color:lightgrey;'}}" bindtap='onShow'>时间</button>
+      <button class='sort-by-bt' style="{{sortBy===2?'background-color:grey;':'background-color:lightgrey;'}}" bindtap='sortByPriority'>优先级</button>
       <!-- <radio-group>
     <radio class='sort-by-bt' checked='true'>时间</radio>
     <radio class='sort-by-bt' style='null'>优先级</radio>
@@ -15,7 +15,7 @@
     </view>
   </view>
   <view class="todolist">
-    <view wx:for="{{things}}" wx:for-item="thing" wx:key="*this">
+    <view wx:for="{{things}}" wx:for-item="thing" wx:key="thingItem">
       <view class="thing_list" data-index="{{index}}" bindlongpress="thing_click_show_dialog" bindtap='thing_click_view_detals'>
         <text class="thing_item">{{index}}:{{things[index].todo_thing}}
         </text>
