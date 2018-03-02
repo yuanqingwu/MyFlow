@@ -16,7 +16,7 @@ Page({
       //   todo_audio_path: '',
       //   todo_recorder_progress: 0,
       //   todo_photo_imagePath:'',
-      //   todo_location_locationName:''
+      //   todo_location_locationInfo:''
       // }
     ],
     prioritys: [

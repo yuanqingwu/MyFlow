@@ -48,14 +48,14 @@
       </swiper-item>
       <swiper-item>
         <view class='edit-media-swiper-item-view'>
-          <image class='edit-media-photo' src='{{imagePath}}' mode='aspectFit' wx:if='{{imagePath.length>0?true:false}}'></image>
+          <image class='edit-media-photo' src='{{imagePath}}' mode='aspectFit' wx:if='{{imagePath.length>0?true:false}}' bindtap='previewPhoto'></image>
           <text class='edit_media_location_text' wx:if='{{imagePath.length>0?false:true}}'>没有图片信息!</text>
           <button class='edit_media_confirm_bt' bindtap='chooseImage' wx:if='{{operation===1?false:true}}'>选取图片</button>
         </view>
       </swiper-item>
       <swiper-item>
         <view class='edit-media-swiper-item-view'>
-          <text class='edit_media_location_text'>{{locationName.length>0?'位置名称：':'没有位置信息！'}}{{locationName}}</text>
+          <text class='edit_media_location_text' bindtap='openLocation'>{{location.name.length>0?'位置名称：':'没有位置信息！'}}{{location.name}}</text>
           <button class='edit_media_confirm_bt' bindtap='chooseLocation' wx:if="{{operation===1?false:true}}">选取位置</button>
         </view>
       </swiper-item>

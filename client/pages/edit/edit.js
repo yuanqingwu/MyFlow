@@ -38,7 +38,7 @@ Page({
       //   todo_audio_path: '',
       //   todo_recorder_progress: 0,
       //   todo_photo_imagePath:'',
-      //   todo_location_locationName:''
+      //   todo_location_locationInfo:''
       // }
     ],
     prioritys: [
@@ -64,14 +64,19 @@ Page({
     //*****************************照片数据 */
     imagePath: '',
     //*****************************位置数据 */
-    locationName: '',
+    location: { latitude: 0, longitude: 0, name: '' },
     //media选择的tab
     swiperIndex: 0
   },
   addThing: function () {
-    //封装保存此条信息函数,（index=-1则添加一条；index!=-1则修改index条）
+    
     let that = this
-    let saveThing = function (index, recorderFilePath) {
+    let recorderFilePath = ''
+    let imageFilePath = ''
+    /**
+     * 封装保存此条信息函数,（index=-1则添加一条；index!=-1则修改index条）
+     */
+    let saveThing = function (index, recorderFilePath, imageFilePath) {
       let _thing = {
         todo_time: that.data.time,
         todo_date: that.data.date,
@@ -79,8 +84,8 @@ Page({
         todo_thing_priority: that.data.thing_priority,
         todo_audio_path: recorderFilePath,
         todo_recorder_progress: that.data.recorder_progress,
-        todo_photo_imagePath: that.data.imagePath,
-        todo_location_locationName: that.data.locationName
+        todo_photo_imagePath: imageFilePath,
+        todo_location_locationInfo: that.data.location
       }
       if (index === -1) {
         that.data.things.push(_thing)
@@ -92,6 +97,7 @@ Page({
         key: 'save_things',
         data: that.data.things,
         success: function (res) {
+          wx.hideLoading()
           wx.navigateBack({
             delta: 1
           })
@@ -105,22 +111,57 @@ Page({
       })
     }
 
+    //图片
+    let saveImage = function () {
+     
+      if (that.data.imagePath !== '') {
+        imageFilePath = that.data.imagePath
+        wx.saveFile({
+          tempFilePath: imageFilePath,
+          success: function (res) {
+            imageFilePath = res.savedFilePath
+            console.log('save success imageFilePath:', imageFilePath)
+            //保存此事
+            saveThing(-1, recorderFilePath, imageFilePath)
+          },
+          fail: function () {
+            imageFilePath = ''
+            saveThing(-1, recorderFilePath, imageFilePath)
+            wx.showToast({
+              title: '保存照片文件失败！',
+              icon: 'none'
+            })
+          }
+        })
+      } else {
+        // saveThing(-1)
+        saveThing(-1, recorderFilePath, imageFilePath)
+      }
+    }
+
     let _operation = this.data.operation
     if (_operation === 0) {
       //添加事项
+      wx.showLoading({
+        title: '保存中...',
+      })
       //将临时文件保存本地
-      let recorderFilePath = that.data.tempRecorderFile
-      if (recorderFilePath !== '') {
+      //录音
+      
+      if (that.data.tempRecorderFile !== '') {
+        recorderFilePath = that.data.tempRecorderFile
         wx.saveFile({
           tempFilePath: recorderFilePath,
           success: function (res) {
             recorderFilePath = res.savedFilePath
             console.log('save success recorderFilePath:', recorderFilePath)
-            //保存此事
-            saveThing(-1, recorderFilePath)
+            saveImage()
+            // //保存此事
+            // saveThing(-1, recorderFilePath)
           },
           fail: function () {
             recorderFilePath = ''
+            saveImage()
             wx.showToast({
               title: '保存录音文件失败！',
               icon: 'none'
@@ -128,7 +169,8 @@ Page({
           }
         })
       } else {
-        saveThing(-1, '')
+        saveImage()
+        // saveThing(-1, '')
       }
     } else if (_operation === 1) {
       //查看事项
@@ -137,7 +179,7 @@ Page({
       })
     } else if (_operation === 2) {
       //编辑事项
-      saveThing(that.data.tapindex, that.data.tempRecorderFile)
+      saveThing(that.data.tapindex, that.data.tempRecorderFile, that.data.imagePath)
     }
   },
   bindTimeChange: function (e) {
@@ -277,16 +319,41 @@ Page({
       },
     })
   },
+  previewPhoto: function () {
+    let _imagePath = this.data.imagePath
+    let that = this
+    wx.previewImage({
+      urls: [_imagePath],
+      fail: function () {
+        console.log('预览失败' + this.data.imagePath)
+      },
+      success:function(){
+        that.setData({
+          imagePath:_imagePath
+        })
+        console.log('预览成功' + that.data.imagePath)
+      }
+    })
+    console.log('预览'+this.data.imagePath)
+  },
   chooseLocation: function () {
     let that = this
     wx.chooseLocation({
       success: function (res) {
         console.log('name:' + res.name + 'adress:' + res.address)
         that.setData({
-          locationName: res.name
+          location: { latitude: res.latitude, longitude: res.longitude, name: res.name }
         })
       },
     })
+  },
+  openLocation: function () {
+    if (this.data.location.name.length > 0) {
+      wx.openLocation({
+        latitude: this.data.location.latitude,
+        longitude: this.data.location.longitude,
+      })
+    }
   },
   swiperLabelClick: function (event) {
     let clickId = event.currentTarget.id
@@ -335,7 +402,7 @@ Page({
             tempRecorderFile: res.data[options.tapindex].todo_audio_path,
             recorder_progress: res.data[options.tapindex].todo_recorder_progress,
             imagePath: res.data[options.tapindex].todo_photo_imagePath,
-            locationName: res.data[options.tapindex].todo_location_locationName
+            location: res.data[options.tapindex].todo_location_locationInfo
           })
           if (res.data[options.tapindex].todo_recorder_progress > 0) {
             that.setData({
