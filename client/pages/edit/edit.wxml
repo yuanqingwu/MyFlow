@@ -32,7 +32,7 @@
   </view>
 
   <!-- media view -->
-  <view class='input_thing_view'>
+  <view class='input_thing_view' wx:if='{{(operation==1 && recorder_progress<=0 && imagePath.length<=0 && location.name.length<=0)? false:true}}'>
     <view class='edit-media-view'>
       <label class='edit_media_label' id='edit_media_label_0' bindtap='swiperLabelClick' style="{{swiperIndex==0?'color:green;':'color:black;'}}" wx:if='{{(operation===1 && recorder_progress<=0)?false:true}}'>录音</label>
       <label calss='edit_media_label' id='edit_media_label_1' bindtap='swiperLabelClick' style="{{swiperIndex==1?'color:green;':'color:black;'}}" wx:if='{{(operation===1 && imagePath.length<=0)?false:true}}'>照片</label>

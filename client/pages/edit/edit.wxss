@@ -1,38 +1,38 @@
 .input_thing_view {
   width: 100%;
   height: 100%;
-  margin-top: 20px;
+  margin-top: 40rpx;
   background-color: whitesmoke;
 }
 
 #input_ting_box {
   width: 90%;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  padding-left: 10px;
+  padding-top: 20rpx;
+  padding-bottom: 20rpx;
+  padding-left: 20rpx;
   background-color: whitesmoke;
 }
 
 #input_thing_confirm {
   width: 90%;
-  margin-top: 20px;
+  margin-top: 40rpx;
   background-color: green;
   color: white;
   font-size: 14pt;
 }
 
 .edit_item_text {
-  height: 50px;
-  line-height: 50px;
-  margin-left: 10px;
+  height: 100rpx;
+  line-height: 100rpx;
+  margin-left: 20rpx;
   font-size: 14pt;
   text-align: center;
 }
 
 .input_thing_date_picker {
   width: 30%;
-  height: 50px;
-  line-height: 50px;
+  height: 100rpx;
+  line-height: 100rpx;
   display: inline-block;
   /* background-color: powderblue; */
   text-align: center;
@@ -41,8 +41,8 @@
 
 .input_thing_time_picker {
   width: 15%;
-  height: 50px;
-  line-height: 50px;
+  height: 100rpx;
+  line-height: 100rpx;
   display: inline-block;
   /* margin-left: 10px; */
   text-align: center;
@@ -54,14 +54,14 @@
   height: 60%;
   display: inline-block;
   text-align: center;
-  margin-left: 10px;
+  margin-left: 20rpx;
 }
 
 .priority-radio-group {
   width: 60%;
-  line-height: 50px;
-  height: 50px;
-  margin-left: 20px;
+  line-height: 100rpx;
+  height: 100rpx;
+  margin-left: 40rpx;
   text-align: center;
   display: inline-flex;
   flex-direction: row;
@@ -73,9 +73,9 @@
 }
 
 .edit-media-view {
-  height: 50px;
-  margin-top: 20px;
-  margin-left: 20px;
+  height: 100rpx;
+  margin-top: 40rpx;
+  margin-left: 40rpx;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -88,7 +88,7 @@
 
 .edit-media-swiper {
   width: 100%;
-  height: 150px;
+  height: 300rpx;
 }
 
 .edit-media-swiper-item-view {
@@ -103,29 +103,29 @@
 
 .recorder-progress {
   width: 80%;
-  margin: 10px;
+  margin: 20rpx;
 }
 
 .audio-image {
-  width: 50px;
-  height: 50px;
+  width: 100rpx;
+  height: 100rpx;
 }
 
 .edit_media_confirm_bt {
   width: 80%;
   align-self: flex-end;
-  margin-bottom: 10px;
+  margin-bottom: 20rpx;
 }
 
 .edit-media-photo {
-  width: 80px;
-  height: 80px;
-  margin: 5px;
+  width: 160rpx;
+  height: 160rpx;
+  margin: 10rpx;
   align-content: center;
 }
 
 .edit_media_location_text {
   width: 100%;
-  margin: 10px;
+  margin: 20rpx;
   text-align: center;
 }
