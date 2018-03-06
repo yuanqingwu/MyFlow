@@ -17,8 +17,8 @@
   <view class="todolist">
     <view wx:for="{{things}}" wx:for-item="thing" wx:key="thingItem">
       <view class="thing_list" data-index="{{index}}" bindlongpress="thing_click_show_dialog" bindtap='thing_click_view_detals'>
-        <text class="thing_item">{{index}}:{{things[index].todo_thing}}
-        </text>
+        <textarea class="thing_item">{{index+1}}:{{things[index].todo_thing}}
+        </textarea>
         <view class='thing_time'>
           <image class='thing_contain_audio_image' src='../../image/audio.png' wx:if="{{things[index].todo_recorder_progress > 0}}"></image>
           <image class='thing_contain_audio_image' src='../../image/photo.png' wx:if="{{things[index].todo_photo_imagePath.length>0}}"></image>
