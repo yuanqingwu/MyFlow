@@ -19,7 +19,7 @@
       <view class="thing_list" data-index="{{index}}" bindlongpress="thing_click_show_dialog" bindtap='thing_click_view_detals'>
         <textarea class="thing_item" disabled='{{true}}'>{{index+1}}:{{things[index].todo_thing}}
         </textarea>
-        <view class='thing_time'>
+        <view class='thing_media'>
           <image class='thing_contain_audio_image' src='../../image/audio.png' wx:if="{{things[index].todo_recorder_progress > 0}}"></image>
           <image class='thing_contain_audio_image' src='../../image/photo.png' wx:if="{{things[index].todo_photo_imagePath.length>0}}"></image>
           <image class='thing_contain_audio_image' src='../../image/location.png' wx:if="{{things[index].todo_location_locationInfo.name.length>0}}"></image>
