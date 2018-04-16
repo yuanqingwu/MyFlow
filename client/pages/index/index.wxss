@@ -40,6 +40,7 @@
   text-align: center;
   /* margin-top: 10rpx; */
   background-color: lightgrey;
+  border: 1rpx solid whitesmoke;
 }
 
 .userinfo-avatar {
@@ -50,7 +51,8 @@
 }
 
 .userinfo-nickname {
-  color: #aaa;
+  /* color: #aaa; */
+  color: white;
 }
 
 .todolist {

@@ -6,7 +6,7 @@ const options = {
   duration: 10000,
   sampleRate: 44100,
   numberOfChannels: 1,
-  encodeBitRate: 192000,
+  encodeBitRate: 192000, 
   format: 'aac',
   frameSize: 50
 }
@@ -69,7 +69,7 @@ Page({
     swiperIndex: 0
   },
   addThing: function () {
-    
+
     let that = this
     let recorderFilePath = ''
     let imageFilePath = ''
@@ -113,7 +113,7 @@ Page({
 
     //图片
     let saveImage = function () {
-     
+
       if (that.data.imagePath !== '') {
         imageFilePath = that.data.imagePath
         wx.saveFile({
@@ -147,7 +147,7 @@ Page({
       })
       //将临时文件保存本地
       //录音
-      
+
       if (that.data.tempRecorderFile !== '') {
         recorderFilePath = that.data.tempRecorderFile
         wx.saveFile({
@@ -327,14 +327,14 @@ Page({
       fail: function () {
         console.log('预览失败' + this.data.imagePath)
       },
-      success:function(){
+      success: function () {
         that.setData({
-          imagePath:_imagePath
+          imagePath: _imagePath
         })
         console.log('预览成功' + that.data.imagePath)
       }
     })
-    console.log('预览'+this.data.imagePath)
+    console.log('预览' + this.data.imagePath)
   },
   chooseLocation: function () {
     let that = this
@@ -372,7 +372,7 @@ Page({
   swiperChange: function (event) {
     let that = this
     if (event.detail.source == 'touch') {
-      //console.log(event.detail.current)
+      console.log(event.detail.current)
       that.setData({
         swiperIndex: event.detail.current
       })
@@ -408,6 +408,11 @@ Page({
             that.setData({
               isRecording: 2
             })
+          } else {
+            // console.log("no radio")
+            // that.setData({
+            //   swiperIndex:0
+            // })
           }
         } else {
           that.setData({
