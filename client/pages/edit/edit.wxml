@@ -35,8 +35,8 @@
   <view class='input_thing_view' wx:if='{{(operation==1 && recorder_progress<=0 && imagePath.length<=0 && location.name.length<=0)? false:true}}'>
     <view class='edit-media-view'>
       <label class='edit_media_label' id='edit_media_label_0' bindtap='swiperLabelClick' style="{{swiperIndex==0?'color:green;':'color:black;'}}" wx:if='{{(operation===1 && tempRecorderFile.length<=0)?false:true}}'>录音</label>
-      <label calss='edit_media_label' id='edit_media_label_1' bindtap='swiperLabelClick' style="{{(swiperIndex==1&&recorder_progress>0)||(recorder_progress<=0&& swiperIndex==0)?'color:green;':'color:black;'}}" wx:if='{{(operation===1 && imagePath.length<=0)?false:true}}'>照片</label>
-      <label calss='edit_media_label' id='edit_media_label_2' bindtap='swiperLabelClick' style="{{swiperIndex==2||(recorder_progress<=0&&swiperIndex==1)?'color:green;':'color:black;'}}" wx:if='{{(operation===1 && location.name.length<=0)?false:true}}'>位置</label>
+      <label calss='edit_media_label' id='edit_media_label_1' bindtap='swiperLabelClick' style="{{(swiperIndex==1 && operation !== 1)||(((swiperIndex===1 && recorder_progress>0)||(swiperIndex===0 && recorder_progress<=0))&& operation === 1)?'color:green;':'color:black;'}}" wx:if='{{(operation===1 && imagePath.length<=0)?false:true}}'>照片</label>
+      <label calss='edit_media_label' id='edit_media_label_2' bindtap='swiperLabelClick' style="{{(swiperIndex==2 && operation !==1)||(((recorder_progress<=0 && imagePath.length<=0 && swiperIndex==0)||((recorder_progress<=0 || imagePath.length<=0) &&swiperIndex==1)||(recorder_progress!==0 && imagePath.length!==0 && swiperIndex==2)) && operation === 1)?'color:green;':'color:black;'}}" wx:if='{{(operation===1 && location.name.length<=0)?false:true}}'>位置</label>
     </view>
     <!-- 分隔线 -->
     <view class='segment-view'></view>
