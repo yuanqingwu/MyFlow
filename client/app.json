@@ -6,8 +6,9 @@
   ],
   "window":{
     "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
+    "navigationBarBackgroundColor": "#008000",
     "navigationBarTitleText": "MyFlow",
-    "navigationBarTextStyle":"black"
+    "navigationBarTextStyle":"white",
+    "backgroundColor": "#008000"
   }
 }
