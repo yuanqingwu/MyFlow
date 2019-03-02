@@ -43,6 +43,11 @@
 
 .userinfo-nickname {
   color: #aaa;
+  font-size: 14pt;
+  width: 250rpx;
+  height: 50rpx;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .todolist {
@@ -69,7 +74,8 @@
   line-height: 80rpx;
   overflow: hidden;
   white-space: nowrap;
-  font-size: 14pt;
+  padding-left: 5rpx;
+  font-size: 12pt;
    background-color: lightgray;
 }
 
